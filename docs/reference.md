@@ -12,7 +12,7 @@
 | `max-pages` | `200` | Cap on pages audited per run. |
 | `scangov-domain` | | Domain known to ScanGov. Enables a read-only lookup of production results for host-dependent checks. |
 | `baseline` | | Accepted findings file. |
-| `fail-on` | `accessibility` | ScanGov topics (`accessibility`, `usability`, `botability`, `security`) whose failing attributes count as findings. |
+| `fail-on` | `accessibility` | ScanGov topics (`accessibility`, `usability`, `botability`, `security`, `readability`) whose failing attributes count as findings. |
 | `with-cls` | `false` | Also run the Lighthouse performance category for a lab CLS reading. |
 | `block` | `false` | Set `true` to fail the job when there are findings, which blocks any job that depends on it. Default is report only. |
 | `report-dir` | `scangov-report` | Where reports are written. Uploaded as a workflow artifact. |
@@ -36,7 +36,7 @@ The reusable workflow in the README covers GitHub Pages. To put the audit
 inside your own workflow:
 
 ```yaml
-- uses: ScanGov/action@v1
+- uses: ScanGov/action@v1.0.1
   with:
     site-dir: _site
     canonical-domain: www.example.gov
@@ -58,7 +58,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: scangov
-        uses: ScanGov/action@v1
+        uses: ScanGov/action@v1.0.1
         with:
           site-dir: .
 
@@ -86,3 +86,16 @@ Chrome installed.
 runs deeper accessibility checks (motion, keyboard, reflow, cross-page
 consistency) in CI. The two complement each other: ramp-check asks "is this
 accessible," this action asks "will this pass ScanGov."
+
+## Versions
+
+Every `ScanGov/action@v…` reference in this repository points at the
+latest release, pinned exactly. There is no floating `v1` tag, so copying
+an example gives you a version that does not change under you. Releases are
+listed at <https://github.com/ScanGov/action/releases>. To upgrade, change
+the tag in your workflow.
+
+To cut a release, run the **Release** workflow from the Actions tab with the
+new version number. It repoints every reference here at the new tag, sets
+`package.json` to match, commits to `main`, tags, and publishes the release.
+The same bump can be run locally with `npm run set-version -- 1.2.3`.
